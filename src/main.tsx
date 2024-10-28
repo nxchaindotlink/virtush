@@ -14,6 +14,7 @@ import "./input.css";
   const queryClient = new QueryClient();
 
   const projectId = `${import.meta.env.VITE_API_KEY}`;
+  console.log(projectId);
 
   const metadata = {
     name: 'AppKit',
