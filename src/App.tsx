@@ -10,9 +10,19 @@ import { ethers } from "ethers";
 import abiusdt from './abi/abiusdt.json';
 import abinft from './abi/abinft.json';
 
+function useNextTokenId() {
+  const result = useReadContract({
+    abi: abinft,
+    address: "0x0Dd83D6CBf5246Aa01954fD2037fE0f47E2c6bb4", // Substitua por sua variável de contrato, se necessário
+    functionName: '_nextTokenId'
+  });
+
+  return result.data;
+}
+
 function App() {
   const [studentCount, setStudentCount] = useState(0);
-  const [liquidity, setLiquidity] = useState<string>("");
+  const [liquidity, setLiquidity] = useState<string>("0");
   const [nftCount, setNftCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
   const [step, setStep] = useState(0);
@@ -23,12 +33,7 @@ function App() {
   const CONTRACT_NFT ="0x0Dd83D6CBf5246Aa01954fD2037fE0f47E2c6bb4";
     
   const {writeContract} = useWriteContract();
-
-  const result = useReadContract({
-    abi: abinft,
-    address: CONTRACT_NFT,
-    functionName: '_nextTokenId'
-  })
+  const nextTokenId = useNextTokenId();
 
   const handleApprove = async () => {
     try {
@@ -59,45 +64,45 @@ function App() {
       return err;
     }
   }
-
+ 
   useEffect(() => {
-    const totalStudents = Number(result.data);
-    const totalLiquidity = Number(result.data);
-    const totalNft = Number(result.data);
-    const totalUsers = Number(result.data);
+    if (nextTokenId !== undefined) {
+      const totalStudents = Number(nextTokenId);
+      const totalLiquidity = totalStudents * 50;
+      const totalNft = totalStudents;
+      const totalUsers = totalStudents;
 
-    const countUp = (setter:(value: number) => void, target:number, duration:number) => {
-      let start = 0;
-      const step = Math.ceil(target / (duration / 50));
-      const timer = setInterval(() => {
-        if (start < target) {
-          start += step;
-          if (start > target) start = target;
-          setter(start);
+      const countUp = (setter: (value:number) => void, target:number, duration:number) => {
+        let start = 0;
+        const step = Math.ceil(target / (duration / 50));
+        const timer = setInterval(() => {
+          if (start < target) {
+            start += step;
+            if (start > target) start = target;
+            setter(start);
+          } else {
+            clearInterval(timer);
+          }
+        }, 50);
+      };
+
+      countUp(setStudentCount, totalStudents, 2000);
+      countUp(setUserCount, totalUsers, 2000);
+      countUp(setNftCount, totalNft, 2000);
+
+      const format = (value:number) => {
+        if (value >= 1_000_000) {
+          return `${value / 1_000_000}M`;
+        } else if (value >= 1_000) {
+          return `${value / 1_000} K`;
         } else {
-          clearInterval(timer);
+          return `${value}$`;
         }
-      }, 50);
-    };
+      };
 
-    countUp(setStudentCount, totalStudents, 2000);
-    countUp(setUserCount, totalUsers, 2000);
-    countUp(setNftCount, totalNft, 2000);
-
-    function format(value:number){
-      if(value >= 1_000_000){
-        return `${value / 10000000}M`
-      }
-      else if(value >= 1_000){
-        return `${value / 1000} K`
-      }
-      else if(value <= 999){
-        return `${value}$`
-      }
+      countUp((value) => setLiquidity(String(format(value))), totalLiquidity, 3000);
     }
-
-    countUp((value) => setLiquidity(String(format(value))), Number(totalLiquidity  *50), 3000);
-  },[]);
+  }, [nextTokenId]);
 
 
   return (
