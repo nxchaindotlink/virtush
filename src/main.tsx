@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { createAppKit } from '@reown/appkit/react';
 import { WagmiProvider } from 'wagmi';
-import { mainnet, polygon } from '@reown/appkit/networks';
+import { polygonAmoy } from '@reown/appkit/networks';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import "./input.css";
@@ -14,11 +14,11 @@ const queryClient = new QueryClient();
   const metadata = {
     name: 'AppKit',
     description: 'AppKit Example',
-    url: 'http://localhost:5173/',
+    url: 'https://virtus-interface.vercel.app/',
     icons: [ " "]
   }
 
-  const networks = [mainnet, polygon];
+  const networks = [polygonAmoy];
 
   const wagmiAdapter = new WagmiAdapter({
     networks,
@@ -29,7 +29,7 @@ const queryClient = new QueryClient();
 
   createAppKit({
     adapters: [wagmiAdapter],
-    networks: [polygon],
+    networks: [polygonAmoy],
     projectId,
     metadata,
     features: {
