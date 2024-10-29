@@ -3,6 +3,7 @@ import CardPeople from "./assets/cardstudents.png";
 import Square from "./assets/square.png";
 import Student from "./assets/student.png";
 import NFTasset from './assets/nftasset.webp';
+import Certified from './assets/certified.png';
 import Usdt from './assets/usdt.png';
 import { Link } from 'react-scroll';
 import {useAccount, useWriteContract, useReadContract} from "wagmi";
@@ -201,6 +202,20 @@ function App() {
             </div>
           </article>
         </div>
+      </article>
+
+      <article className="h-auto md:flex md:justify-center">
+         <div className=" p-5 mt-10">
+          <h3 className="text-[#38F682] font-primary text-xl">COMMUNITY DRIVEN</h3>
+          <p className="font-semibold text-white flex">
+            Our smart contract was developed by Next Chain, check out our code in the github repository 
+          </p>
+          <a className="underline text-blue-600 font-bold text-md" href="https://github.com/nxchaindotlink/virtush-contract">
+            NextChain github
+          </a>
+           <img className="rounded-xl mt-10"  src={Certified} alt="nxchain.link"/>
+           <a href="https://nxchain.link" className="text-white flex underline flex-col font-bold">Verify certification on Next Chain WebSite<span>Code: 10001</span></a>
+         </div>
       </article>
     </section>
   );
