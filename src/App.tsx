@@ -43,8 +43,7 @@ function App() {
           functionName: 'approve',
           args:['0x0Dd83D6CBf5246Aa01954fD2037fE0f47E2c6bb4', ethers.parseUnits("50", 18)]
         });
-
-        setInterval(() => setStep(1), 2000);
+        await setStep(1)
     }catch(err){
       return err;
     }
@@ -58,7 +57,7 @@ function App() {
           functionName: 'buy',
           args: [address, ethers.parseUnits("50", 18)]
         })
-        setInterval(() => setStep(0), 2000);
+        await setStep(0);
       }
     catch(err){
       return err;
@@ -172,19 +171,15 @@ function App() {
                 <img className="w-7" src={Usdt} alt="usdt-coin" />
               </p>
             </div>
-            {   isConnected ?
-
-                step === 0 ?
-                <button onClick={handleApprove} className="bg-[#E748D8] rounded-tr-xl rounded-sm h-10 text-white font-primary">
-                  Approve
-                </button>
-                
-                : <button onClick={handleBuy} className="bg-[#E748D8] rounded-tr-xl rounded-sm h-10 text-white font-primary">
-                  Buy Now
-                </button>
-              :
+            {isConnected ? (
+              step === 0 ? (
+                <button onClick={handleApprove} className="bg-[#E748D8] rounded-tr-xl rounded-sm p-2 text-white font-bold w-32">Approve</button>
+              ) : (
+                <button onClick={handleBuy} className="bg-[#E748D8] rounded-tr-xl rounded-sm p-2 text-white font-bold w-32">Buy Now</button>
+              )
+            ) : (
               <w3m-button/>
-            }
+            )}
           </div>
 
           <article className="w-10/12 border-2 h-auto mt-20 rounded-xl border-[#38f682]">
