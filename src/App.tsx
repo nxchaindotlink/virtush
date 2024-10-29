@@ -58,7 +58,7 @@ function App() {
           functionName: 'buy',
           args: [address, ethers.parseUnits("50", 18)]
         })
-        await setStep(0);
+        setInterval(() => setStep(0), 2000);
       }
     catch(err){
       return err;
