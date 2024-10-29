@@ -14,7 +14,7 @@ const projectId = `${import.meta.env.VITE_API_KEY}`;
 const metadata = {
   name: 'Virtus',
   description: 'Virtush your new method to learn english!',
-  url: 'https://virtuscoin.org/',
+  url: 'https://virtush.vercel.app/',
   icons: ['']
 };
 
@@ -32,9 +32,8 @@ createAppKit({
   projectId: projectId,
   metadata,
   features: {
-    analytics: false,
+    analytics: true,
   },
-  defaultNetwork: polygonAmoy
 });
 
 createRoot(document.getElementById('root')!).render(
